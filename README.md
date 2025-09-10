@@ -42,6 +42,7 @@ The AI opponent uses advanced search algorithms:
 - Transposition tables for caching search results
 - Zobrist hashing for position management
 
-## License
+## Screenshots
 
-This project is open source and available under the MIT License.
+![Game Screenshot](Screenshots/chinesechess/chinesechess.jpg)
+![Gameplay](Screenshots/chinesechess/chess1.jpg)

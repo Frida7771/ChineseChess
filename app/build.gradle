@@ -1,0 +1,87 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 31
+    namespace "com.frida.chinese.jchess"
+
+    signingConfigs {
+        demokey {
+            storeFile file('demokey.jks')
+            storePassword "demokey"
+            keyAlias 'demokey'
+            keyPassword 'demokey'
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.frida.chinese.jchess"
+        minSdkVersion 15
+        targetSdkVersion 31
+        versionCode 5
+        versionName "1.0.4"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    // 用 ViewBinding 替代 ButterKnife
+    buildFeatures {
+        viewBinding true
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.demokey
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.demokey
+        }
+    }
+
+    // ★ 关键：把源码/目标语言级别提升到 Java 17，并开启 desugaring
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
+
+    // ★ 关键：即使你的机器用 JDK 21 跑 Gradle，这里用 toolchain 指定"编译源码用 17"
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    // 保持原有自定义 APK 命名逻辑
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName = project.name + '-' + variant.name + '-V' +
+                    defaultConfig.versionCode + ".apk"
+            outputFileName = fileName
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // utilcode 用 Maven Central 上的 utilcodex
+    implementation 'com.blankj:utilcodex:1.31.1'
+
+    // ★ desugaring 库（配合上面的 coreLibraryDesugaringEnabled）
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+
+    // （已移除 ButterKnife）
+    // implementation 'com.jakewharton:butterknife:10.2.3'
+    // annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}

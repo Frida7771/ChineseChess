@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="com.frida.chinese.jchess.MainApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- 启动页：有 intent-filter，必须显式 exported -->
+        <activity
+            android:name="com.frida.chinese.jchess.activity.SplashActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <data
+                    android:host="chinese.chess"
+                    android:scheme="game" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
+        <!-- 这些没有 intent-filter，可不写 exported（也可手动写 android:exported="false"） -->
+        <activity
+            android:name="com.frida.chinese.jchess.activity.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.frida.chinese.jchess.activity.SettingsActivity"
+            android:label="@string/game_settings"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.frida.chinese.jchess.activity.AboutActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.frida.chinese.jchess.activity.WebViewActivity"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

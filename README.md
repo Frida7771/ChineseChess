@@ -14,8 +14,8 @@ A Chinese Chess game for Android with AI opponent featuring intelligent gameplay
 
 ## Technical Stack
 
-- **Language**: Java 17
-- **Platform**: Android (API 15+)
+- **Language**: Java
+- **Platform**: Android
 - **Build**: Gradle
 - **UI**: Custom View with Canvas API
 - **AI**: Minimax algorithm with Alpha-Beta pruning
